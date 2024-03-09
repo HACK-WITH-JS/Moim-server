@@ -1,0 +1,147 @@
+// mysql 관련 환경 설정 참조
+// TODO 환경변수에 커넥션 풀 커넥션 타임아웃 풀 타임아웃 설정 가능함.
+// https://www.prisma.io/docs/orm/overview/databases/mysql
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id                 Int      @id @default(autoincrement())
+  email              String   @unique
+  nickName           String   @unique
+  password           String?
+  profileImageUrl    String?
+  createdAt          DateTime @default(now())
+
+  position           Position @relation(fields: [positionId], references: [id])
+  positionId         Int      @unique
+  positionOpenStatus PositionOpenStatus @default(CLOSE)
+  carrer             Int
+  introduce          String? 
+
+  posts              Post[]
+  comments           Comment[]
+  links              Link[]
+  techStacks         UserTechStack[]
+} 
+
+model Link {
+  id          Int      @id @default(autoincrement())
+  url         String
+  description String
+  createdAt   DateTime @default(now())
+
+  user        User    @relation(fields: [userId], references: [id])
+  userId      Int
+}
+
+model Position {
+  id        Int      @id @default(autoincrement())
+  name      String   @unique
+  createdAt DateTime @default(now())
+
+  user      User?
+  posts     PostPosition[]
+}
+
+model PostPosition {
+  post        Post     @relation(fields: [postId], references: [id])
+  postId      Int
+  position    Position @relation(fields: [positionId], references: [id])
+  positionId  Int
+
+  @@id([postId, positionId])
+
+}
+
+model TechStack {
+  id        Int      @id @default(autoincrement())
+  name      String   @unique
+  createdAt DateTime @default(now())
+
+  users     UserTechStack[]
+  posts     PostTechStack[]
+}
+
+model UserTechStack {
+  user        User     @relation(fields: [userId], references: [id])
+  userId      Int
+  techStack   TechStack @relation(fields: [techStackId], references: [id])
+  techStackId Int
+
+  @@id([userId, techStackId])
+}
+
+model PostTechStack {
+  post        Post     @relation(fields: [postId], references: [id])
+  postId      Int
+  techStack   TechStack @relation(fields: [techStackId], references: [id])
+  techStackId Int
+
+  @@id([postId, techStackId])
+}
+
+model Post {
+  id             Int      @id @default(autoincrement())
+  type           PostType
+  title          String
+  content        String
+  status         MoimStatus
+  capacity       Int
+  method         MoimMethod
+  progressPeriod DateTime
+  contactMethod  ContactMethod
+  createdAt      DateTime @default(now())
+
+  author         User     @relation(fields: [authorId], references: [id])
+  authorId       Int
+
+  comments       Comment[]
+  techStacks     PostTechStack[]
+  positions      PostPosition[]
+}
+
+model Comment {
+  id        Int      @id  @default(autoincrement())
+  content   String
+  createdAt DateTime @default(now())
+
+  author    User     @relation(fields: [authorId], references: [id])
+  authorId  Int
+
+  post      Post     @relation(fields: [postId], references: [id])
+  postId    Int
+}
+
+enum PositionOpenStatus {
+  OPEN
+  CLOSE
+}
+
+enum PostType {
+  PROJECT
+  STUDY
+}
+
+enum MoimMethod {
+  ONLINE
+  OFFLINE
+  ONOFFLINE
+}
+
+enum MoimStatus {
+  OPEN
+  CLOSE
+}
+
+enum ContactMethod {
+  OPEN_KAKAO_TLAK
+  EMAIL
+  GOOGLE_FORM
+}
