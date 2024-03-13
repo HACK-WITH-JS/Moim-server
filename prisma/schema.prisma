@@ -21,8 +21,9 @@ model User {
   createdAt          DateTime @default(now())
 
   position           Position @relation(fields: [positionId], references: [id])
-  positionId         Int      @unique
+  positionId         Int      
   positionOpenStatus PositionOpenStatus @default(CLOSE)
+  
   carrer             Int
   introduce          String? 
 
@@ -47,7 +48,7 @@ model Position {
   name      String   @unique
   createdAt DateTime @default(now())
 
-  user      User?
+  users     User[]
   posts     PostPosition[]
 }
 

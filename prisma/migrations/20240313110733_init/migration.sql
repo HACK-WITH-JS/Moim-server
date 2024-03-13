@@ -5,7 +5,7 @@ CREATE TABLE `User` (
     `nickName` VARCHAR(191) NOT NULL,
     `password` VARCHAR(191) NULL,
     `profileImageUrl` VARCHAR(191) NULL,
-    `providerId` VARCHAR(191) NOT NULL,
+    `providerId` VARCHAR(191) NULL,
     `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
     `positionId` INTEGER NOT NULL,
     `positionOpenStatus` ENUM('OPEN', 'CLOSE') NOT NULL DEFAULT 'CLOSE',
@@ -14,7 +14,6 @@ CREATE TABLE `User` (
 
     UNIQUE INDEX `User_email_key`(`email`),
     UNIQUE INDEX `User_nickName_key`(`nickName`),
-    UNIQUE INDEX `User_positionId_key`(`positionId`),
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
