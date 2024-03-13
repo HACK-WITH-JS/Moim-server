@@ -5,6 +5,7 @@ CREATE TABLE `User` (
     `nickName` VARCHAR(191) NOT NULL,
     `password` VARCHAR(191) NULL,
     `profileImageUrl` VARCHAR(191) NULL,
+    `providerId` VARCHAR(191) NOT NULL,
     `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
     `positionId` INTEGER NOT NULL,
     `positionOpenStatus` ENUM('OPEN', 'CLOSE') NOT NULL DEFAULT 'CLOSE',
