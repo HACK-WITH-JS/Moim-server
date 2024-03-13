@@ -17,6 +17,7 @@ model User {
   nickName           String   @unique
   password           String?
   profileImageUrl    String?
+  providerId         String?
   createdAt          DateTime @default(now())
 
   position           Position @relation(fields: [positionId], references: [id])
