@@ -10,3 +10,7 @@ mysql -u root -p
 # prisma 스키마 DB에 반영
 npx prisma migrate dev
 ```
+
+# 개선 사항 TODO
+
+- [ ] 파일업로드 presigned로 개선
