@@ -6,6 +6,7 @@ import { PrismaService } from './prisma/prisma.service';
 import { PositionModule } from './position/position.module';
 import { PrismaModule } from './prisma/prisma.module';
 import { S3Module } from './s3/s3.module';
+import { HealthModule } from './health/health.module';
 
 @Module({
   imports: [
@@ -18,6 +19,7 @@ import { S3Module } from './s3/s3.module';
     PositionModule,
     PrismaModule,
     S3Module,
+    HealthModule,
   ],
   controllers: [],
   providers: [PrismaService],
