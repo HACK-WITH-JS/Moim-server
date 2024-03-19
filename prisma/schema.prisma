@@ -39,7 +39,7 @@ model Link {
   description String
   createdAt   DateTime @default(now())
 
-  user        User    @relation(fields: [userId], references: [id])
+  user        User    @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId      Int
 }
 
@@ -53,7 +53,7 @@ model Position {
 }
 
 model PostPosition {
-  post        Post     @relation(fields: [postId], references: [id])
+  post        Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
   postId      Int
   position    Position @relation(fields: [positionId], references: [id])
   positionId  Int
@@ -72,7 +72,7 @@ model TechStack {
 }
 
 model UserTechStack {
-  user        User     @relation(fields: [userId], references: [id])
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId      Int
   techStack   TechStack @relation(fields: [techStackId], references: [id])
   techStackId Int
@@ -81,7 +81,7 @@ model UserTechStack {
 }
 
 model PostTechStack {
-  post        Post     @relation(fields: [postId], references: [id])
+  post        Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
   postId      Int
   techStack   TechStack @relation(fields: [techStackId], references: [id])
   techStackId Int
@@ -101,7 +101,7 @@ model Post {
   contactMethod  ContactMethod
   createdAt      DateTime @default(now())
 
-  author         User     @relation(fields: [authorId], references: [id])
+  author         User     @relation(fields: [authorId], references: [id], onDelete: Cascade)
   authorId       Int
 
   comments       Comment[]
@@ -114,10 +114,10 @@ model Comment {
   content   String
   createdAt DateTime @default(now())
 
-  author    User     @relation(fields: [authorId], references: [id])
+  author    User     @relation(fields: [authorId], references: [id], onDelete: Cascade)
   authorId  Int
 
-  post      Post     @relation(fields: [postId], references: [id])
+  post      Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
   postId    Int
 }
 
