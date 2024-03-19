@@ -9,7 +9,10 @@ import { LinkRepository } from 'src/link/link.reposiotry';
 import { TechStackRepository } from 'src/techstack/techstack.repository';
 import { UserTechStackRepository } from 'src/techstack/user.techstack.repository';
 import { InvalidTechStackException } from 'src/techstack/exception/techstack.exception';
-import { GetMyInfo, UpdateUserResponseDto } from './dto/user.res.dto';
+import {
+  GetMyInfoResponseDto,
+  UpdateUserResponseDto,
+} from './dto/user.res.dto';
 import { UpdateUserInfo } from './user.type';
 import { PositionRepository } from 'src/position/position.repository';
 import { PositionNotFoundException } from 'src/position/position.exception';
@@ -36,7 +39,7 @@ export class UserService {
       user.techStacks.map((stack) => stack.techStackId),
     );
 
-    return GetMyInfo.of(
+    return GetMyInfoResponseDto.of(
       user.email,
       user.nickName,
       user.profileImageUrl,
