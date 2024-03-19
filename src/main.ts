@@ -6,6 +6,8 @@ import { AppModule } from './app.module';
 import { swaggerConfig } from './config/swagger.config';
 import { HttpExceptionFilter } from './common/filter/http.exception.filter';
 
+import * as cookieParser from 'cookie-parser';
+
 async function bootstrap() {
   const PORT = process.env.PORT || 8080;
   const app = await NestFactory.create(AppModule);
@@ -19,6 +21,8 @@ async function bootstrap() {
   // 전역 Exception Filter 설정
   app.useGlobalFilters(new HttpExceptionFilter(Logger));
 
+  // cookie parser
+  app.use(cookieParser());
   await app.listen(PORT);
 
   Logger.log(`Server running on http://localhost:${PORT}`);
