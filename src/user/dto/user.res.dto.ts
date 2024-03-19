@@ -71,3 +71,15 @@ export class GetMyInfoResponseDto {
     return user;
   }
 }
+
+export class DeleteUserResponseDto {
+  email: string;
+  nickName: string;
+
+  static of(email: string, nickName: string) {
+    const user = new DeleteUserResponseDto();
+    user.email = email;
+    user.nickName = nickName;
+    return user;
+  }
+}

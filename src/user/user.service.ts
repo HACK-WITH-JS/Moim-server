@@ -10,6 +10,7 @@ import { TechStackRepository } from 'src/techstack/techstack.repository';
 import { UserTechStackRepository } from 'src/techstack/user.techstack.repository';
 import { InvalidTechStackException } from 'src/techstack/exception/techstack.exception';
 import {
+  DeleteUserResponseDto,
   GetMyInfoResponseDto,
   UpdateUserResponseDto,
 } from './dto/user.res.dto';
@@ -190,5 +191,10 @@ export class UserService {
     );
 
     return [deleteTechStacks, addTechStacks];
+  }
+
+  async deleteUser(userId: number) {
+    const deletedUser = await this.userRepository.deleteOneById(userId);
+    return DeleteUserResponseDto.of(deletedUser.email, deletedUser.nickName);
   }
 }
