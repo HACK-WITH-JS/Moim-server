@@ -1,6 +1,9 @@
 import { Body, Controller, Get, Put, Req } from '@nestjs/common';
 import { ApiCookieAuth, ApiExtraModels, ApiTags } from '@nestjs/swagger';
-import { GetMyInfo, UpdateUserResponseDto } from './dto/user.res.dto';
+import {
+  GetMyInfoResponseDto,
+  UpdateUserResponseDto,
+} from './dto/user.res.dto';
 import {
   ApiGetResponse,
   ApiPostResponse,
@@ -11,14 +14,14 @@ import { UserService } from './user.service';
 import { Request } from 'express';
 
 @ApiTags('User')
-@ApiExtraModels(UpdateUserResponseDto, GetMyInfo)
+@ApiExtraModels(UpdateUserResponseDto, GetMyInfoResponseDto)
 @Controller('/api/user')
 export class UserController {
   constructor(private userService: UserService) {}
 
   @Get('/me')
   @ApiCookieAuth()
-  @ApiGetResponse(GetMyInfo)
+  @ApiGetResponse(GetMyInfoResponseDto)
   async getMyInfo(@Req() req: Request) {
     const ret = await this.userService.getMyInfo(req.user.id);
     return new HttpResponseDto(true, ret, null);

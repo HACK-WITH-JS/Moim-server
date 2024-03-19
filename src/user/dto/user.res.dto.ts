@@ -36,7 +36,7 @@ export class UpdateUserResponseDto {
   }
 }
 
-export class GetMyInfo {
+export class GetMyInfoResponseDto {
   email: string;
   nickName: string;
   profileImageUrl: string;
@@ -58,7 +58,7 @@ export class GetMyInfo {
     stacks: string[],
     links: LinkInputDto[],
   ) {
-    const user = new GetMyInfo();
+    const user = new GetMyInfoResponseDto();
     user.email = email;
     user.nickName = nickName;
     user.profileImageUrl = profileImageUrl;
