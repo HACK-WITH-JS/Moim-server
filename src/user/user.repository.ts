@@ -81,4 +81,12 @@ export class UserRepository {
       data: user,
     });
   }
+
+  deleteOneById(userId: number, tx?: PrismaTxType) {
+    return (tx ?? this.prisma).user.delete({
+      where: {
+        id: userId,
+      },
+    });
+  }
 }
