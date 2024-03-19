@@ -9,7 +9,7 @@ import { LinkRepository } from 'src/link/link.reposiotry';
 import { TechStackRepository } from 'src/techstack/techstack.repository';
 import { UserTechStackRepository } from 'src/techstack/user.techstack.repository';
 import { InvalidTechStackException } from 'src/techstack/exception/techstack.exception';
-import { UpdateUserResponseDto } from './dto/user.res.dto';
+import { GetMyInfo, UpdateUserResponseDto } from './dto/user.res.dto';
 import { UpdateUserInfo } from './user.type';
 import { PositionRepository } from 'src/position/position.repository';
 import { PositionNotFoundException } from 'src/position/position.exception';
@@ -25,6 +25,29 @@ export class UserService {
     private postionRepository: PositionRepository,
     private transactionService: TransactionService,
   ) {}
+
+  async getMyInfo(userId: number) {
+    const user =
+      await this.userRepository.findOneByUserIdWithTechStackAndLinkAndPosition(
+        userId,
+      );
+
+    const techStacks = await this.techStackRepository.findAllByTechStackIds(
+      user.techStacks.map((stack) => stack.techStackId),
+    );
+
+    return GetMyInfo.of(
+      user.email,
+      user.nickName,
+      user.profileImageUrl,
+      user.position.name,
+      user.positionOpenStatus,
+      user.carrer,
+      user.introduce,
+      techStacks.map((stack) => stack.name),
+      user.links,
+    );
+  }
 
   // TODO Transaction다른 파일로 분리 하고 싶은데 나중에 하기 prismaService.$transactio만 노출 시켜주면 됨!
   // 트랜잭션 참고 자료 https://www.prisma.io/docs/orm/prisma-client/queries/transactions#bulk-operations

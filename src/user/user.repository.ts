@@ -8,6 +8,19 @@ import { UpdateUserInfo } from './user.type';
 export class UserRepository {
   constructor(private readonly prisma: PrismaService) {}
 
+  findOneByUserIdWithTechStackAndLinkAndPosition(userId: number) {
+    return this.prisma.user.findUnique({
+      where: {
+        id: userId,
+      },
+      include: {
+        position: true,
+        techStacks: true,
+        links: true,
+      },
+    });
+  }
+
   findOneByEmail(email: string, tx?: PrismaTxType) {
     return (tx ?? this.prisma).user.findUnique({
       where: {
