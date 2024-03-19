@@ -10,6 +10,7 @@ import { ConfigService } from '@nestjs/config';
 import { JwtConfigFactory } from 'src/config/jwt.config';
 import { TokenService } from './token.service';
 import { GithubStrategy } from './strategies/github.strategy';
+import { JwtStrategy } from './strategies/jwt.strategy';
 
 @Module({
   imports: [
@@ -22,6 +23,12 @@ import { GithubStrategy } from './strategies/github.strategy';
     }),
   ],
   controllers: [AuthController],
-  providers: [AuthService, TokenService, GoogleStrategy, GithubStrategy],
+  providers: [
+    AuthService,
+    TokenService,
+    GoogleStrategy,
+    GithubStrategy,
+    JwtStrategy,
+  ],
 })
 export class AuthModule {}

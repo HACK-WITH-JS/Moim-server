@@ -9,6 +9,9 @@ mysql -u root -p
 
 # prisma 스키마 DB에 반영
 npx prisma migrate dev
+
+# 로긴용 토큰
+eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjIsImlhdCI6MTcxMDg4MTc2NSwiZXhwIjoxNzEwODg1MzY1fQ.1aV5f2jQpT1dn8BIyXc1AnOkZo6G31k-xCvNmFCZCuU
 ```
 
 # 개선 사항 TODO

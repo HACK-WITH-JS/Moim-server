@@ -3,50 +3,53 @@ import { Request, Response } from 'express';
 import { GoogleAuthGuard } from './guards/google.auth.guard';
 import { AuthService } from './auth.service';
 import { GithubAuthGuard } from './guards/github.auth.guard';
+import { ApiTags } from '@nestjs/swagger';
+import { Public } from './decorator/auth.decorator';
 
+@ApiTags('Auth')
 @Controller('/api/auth')
 export class AuthController {
   constructor(private authService: AuthService) {}
 
-  @UseGuards(GoogleAuthGuard)
   @Get('/google')
+  @Public()
+  @UseGuards(GoogleAuthGuard)
   async googleAuth() {}
 
-  @UseGuards(GoogleAuthGuard)
   @Get('/google/callback')
+  @Public()
+  @UseGuards(GoogleAuthGuard)
   async googleAuthCallback(@Req() req: Request, @Res() res: Response) {
-    // accessToken 생성
     const { accessToken } = await this.authService.login(req.user.id);
-    // 로그인이 필요한 경우와 아닌 경우 존재
-    if (req.user.signupRequired) {
-      return res.redirect(
-        `http://localhost:3000/auth/redirect?signup=true&accessToken=${accessToken}`,
-      );
-    }
 
-    res.redirect(
-      `http://localhost:3000/auth/redirect?signup=false&accessToken=${accessToken}`,
-    );
+    res
+      .status(200)
+      .cookie('accessToken', accessToken, {
+        httpOnly: false, // TODO 나중에 다시 보기 true로 변경
+        path: '/',
+        sameSite: 'lax',
+      })
+      .redirect('http://localhost:3000/auth/login/redirect');
   }
 
-  @UseGuards(GithubAuthGuard)
   @Get('/github')
+  @Public()
+  @UseGuards(GithubAuthGuard)
   async githubAuth() {}
 
-  @UseGuards(GithubAuthGuard)
   @Get('/github/callback')
+  @Public()
+  @UseGuards(GithubAuthGuard)
   async githubAuthCallback(@Req() req: Request, @Res() res: Response) {
-    // accessToken 생성
     const { accessToken } = await this.authService.login(req.user.id);
-    // 로그인이 필요한 경우와 아닌 경우 존재
-    if (req.user.signupRequired) {
-      return res.redirect(
-        `http://localhost:3000/auth/redirect?signup=true&accessToken=${accessToken}`,
-      );
-    }
 
-    res.redirect(
-      `http://localhost:3000/auth/redirect?signup=false&accessToken=${accessToken}`,
-    );
+    res
+      .status(200)
+      .cookie('accessToken', accessToken, {
+        httpOnly: false, // TODO 나중에 다시 보기 true로 변경
+        path: '/',
+        sameSite: 'lax',
+      })
+      .redirect('http://localhost:3000/auth/login/redirect');
   }
 }

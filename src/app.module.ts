@@ -9,6 +9,8 @@ import { S3Module } from './s3/s3.module';
 import { HealthModule } from './health/health.module';
 import { LinkModule } from './link/link.module';
 import { TechstackModule } from './techstack/techstack.module';
+import { APP_GUARD } from '@nestjs/core';
+import { JwtAuthGuard } from './auth/guards/jwt.guard';
 
 @Module({
   imports: [
@@ -26,7 +28,7 @@ import { TechstackModule } from './techstack/techstack.module';
     TechstackModule,
   ],
   controllers: [],
-  providers: [PrismaService],
+  providers: [PrismaService, { provide: APP_GUARD, useClass: JwtAuthGuard }], // 모든 요청에 JWT Guard 적용
   exports: [PrismaService],
 })
 export class AppModule {}
