@@ -15,4 +15,14 @@ export class TechStackRepository {
       },
     });
   }
+
+  findAllByTechStackIds(techStackIds: number[], tx?: PrismaTxType) {
+    return (tx ?? this.prisma).techStack.findMany({
+      where: {
+        id: {
+          in: techStackIds,
+        },
+      },
+    });
+  }
 }
