@@ -4,6 +4,7 @@ import {
   HealthCheckService,
   PrismaHealthIndicator,
 } from '@nestjs/terminus';
+import { Public } from 'src/auth/decorator/auth.decorator';
 import { PrismaService } from 'src/prisma/prisma.service';
 
 @Controller('health')
@@ -15,6 +16,7 @@ export class HealthController {
   ) {}
 
   @Get()
+  @Public()
   @HealthCheck()
   healthCheck() {
     // 데이터베이스에 대한 Ping Check를 수행한다.
