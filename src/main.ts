@@ -23,6 +23,11 @@ async function bootstrap() {
 
   // cookie parser
   app.use(cookieParser());
+  // cors
+  app.enableCors({
+    origin: ['http://localhost:3000'],
+    credentials: true,
+  });
   await app.listen(PORT);
 
   Logger.log(`Server running on http://localhost:${PORT}`);

@@ -29,7 +29,7 @@ export class AuthController {
         path: '/',
         sameSite: 'lax',
       })
-      .redirect('http://localhost:3000/auth/login/redirect');
+      .redirect('http://localhost:3000');
   }
 
   @Get('/github')
@@ -50,6 +50,6 @@ export class AuthController {
         path: '/',
         sameSite: 'lax',
       })
-      .redirect('http://localhost:3000/auth/login/redirect');
+      .redirect('http://localhost:3000');
   }
 }
