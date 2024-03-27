@@ -1,4 +1,4 @@
-import { Controller, Get, Req, Res, UseGuards } from '@nestjs/common';
+import { Controller, Delete, Get, Req, Res, UseGuards } from '@nestjs/common';
 import { Request, Response } from 'express';
 import { GoogleAuthGuard } from './guards/google.auth.guard';
 import { AuthService } from './auth.service';
@@ -10,6 +10,18 @@ import { Public } from './decorator/auth.decorator';
 @Controller('/api/auth')
 export class AuthController {
   constructor(private authService: AuthService) {}
+
+  @Delete('/signout')
+  async signOut(@Res() res: Response) {
+    res
+      .status(200)
+      .clearCookie('accessToken', {
+        httpOnly: false, // TODO 나중에 다시 보기 true로 변경
+        path: '/',
+        sameSite: 'lax',
+      })
+      .send();
+  }
 
   @Get('/google')
   @Public()
