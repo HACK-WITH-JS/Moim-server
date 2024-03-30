@@ -38,6 +38,14 @@ export class PostRepository {
       },
     });
   }
+
+  deletePostById(postId: number, tx?: PrismaTxType) {
+    return (tx ?? this.prisma).post.delete({
+      where: {
+        id: postId,
+      },
+    });
+  }
 }
 
 type CreatePostParams = Pick<

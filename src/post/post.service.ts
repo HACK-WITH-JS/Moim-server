@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { ForbiddenException, Injectable } from '@nestjs/common';
 import { CreatePostRequestDto } from './dto/post.req.dto';
 import { PostRepository } from './post.repository';
 import { TransactionService } from 'src/prisma/transaction.service';
@@ -51,5 +51,15 @@ export class PostService {
 
       return this.postRepository.findOneById(createdPost.id, tx);
     });
+  }
+
+  async deletePost(userId: number, postId: number) {
+    const findedPost = await this.postRepository.findOneById(postId);
+
+    if (findedPost.authorId !== userId) {
+      throw new ForbiddenException('작성자만 삭제할 수 있습니다.');
+    }
+
+    return this.postRepository.deletePostById(postId);
   }
 }
