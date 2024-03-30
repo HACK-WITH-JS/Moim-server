@@ -1,1 +1,1 @@
-export const DEFAULT_POSITION_NAME = 'NONE';
+export const DEFAULT_POSITION_NAME = '없음';
